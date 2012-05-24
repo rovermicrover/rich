@@ -48,8 +48,11 @@ module Rich
   mattr_accessor :paperclip_options
   @@paperclip_options = {}
   
-  mattr_accessor :s3assets
-  @@paperclip_options = false
+  mattr_accessor :s3assets_sync
+  @@s3assets_sync = false
+
+  mattr_accessor :s3assets_force
+  @@s3assets_force = false
   
   # Configuration defaults (these map directly to ckeditor settings)
   mattr_accessor :editor

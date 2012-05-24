@@ -9,7 +9,7 @@ namespace :rich do
     require 'find'
     puts "Rich - Copying CKEditor to your assets folder"
     
-    if Rich.s3assets
+    if Rich.s3assets_force
       require 'find'
       s3config = YAML::load(File.open("#{Rails.root}/config/s3.yml"))
       s3 = AWS::S3.new(
@@ -51,6 +51,8 @@ namespace :rich do
         end
       end
       
+    elsif Rich.s3assets_sync
+      #Nothing sense its handle by another gem
     else
       mkdir_p Rails.root.join('public/assets/ckeditor')
       cp_r Rich::Engine.root.join('vendor/assets/ckeditor/ckeditor/.'), Rails.root.join('public/assets/ckeditor')
