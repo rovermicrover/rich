@@ -21,7 +21,7 @@ namespace :rich do
       
       array = Array.new
       
-      Find.find(Rich::Engine.root.join('vendor/assets/ckeditor/ckeditor/')) do |file|
+      Find.find(Rich::Engine.root.join('vendor/assets/ckeditor/ckeditor/')) do |f|
         array << f.to_s
       end
       
