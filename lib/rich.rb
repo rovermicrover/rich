@@ -48,6 +48,9 @@ module Rich
   mattr_accessor :paperclip_options
   @@paperclip_options = {}
   
+  mattr_accessor :s3assets
+  @@paperclip_options = false
+  
   # Configuration defaults (these map directly to ckeditor settings)
   mattr_accessor :editor
   @@editor = {
