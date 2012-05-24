@@ -19,15 +19,11 @@ namespace :rich do
       
       bucket = s3.buckets[s3config[Rails.env.to_s]["bucket"]]
       
-      ckeditor_dir = Dir.new(Rich::Engine.root.join('vendor/assets/ckeditor/ckeditor/.'))
-      ckeditor_contrib_dir = Dir.new(Rich::Engine.root.join('vendor/assets/ckeditor/ckeditor-contrib/.'))
-      
+      array = Array.new
       
       Find.find(Rich::Engine.root.join('vendor/assets/ckeditor/ckeditor/')) do |file|
-        
+        array << f.to_s
       end
-      
-      array = Array.new
       
       array.each do |f|
         if !File.directory? f.to_s
