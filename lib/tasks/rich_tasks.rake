@@ -3,64 +3,66 @@
 # This rake taks copies all CKEditor files from <tt>/vendor</tt> 
 # to <tt>/public/assets/</tt>. Required when running Rich in production mode.
 namespace :rich do
-  
-  desc "Copy CKEditor files to /public/assets for production"
-  task :assetize_ckeditor => :environment do
-    require 'find'
-    puts "Rich - Copying CKEditor to your assets folder"
+  # This should be unneeded now that everything has been moved over to assets if I can get it to work 
+  # how I think it could work. This on the other hand could turn into a gaint disaster of funny proportions
+  # And ya'll can laugh and laugh and laugh. And I can cry and cry and cry.
+  # desc "Copy CKEditor files to /public/assets for production"
+  # task :assetize_ckeditor => :environment do
+  #   require 'find'
+  #   puts "Rich - Copying CKEditor to your assets folder"
     
-    if Rich.s3assets_force
-      require 'find'
-      s3config = YAML::load(File.open("#{Rails.root}/config/s3.yml"))
-      s3 = AWS::S3.new(
-        :access_key_id     => s3config[Rails.env.to_s]["access_key_id"],
-        :secret_access_key => s3config[Rails.env.to_s]["secret_access_key"]
-      )
+  #   if Rich.s3assets_force
+  #     require 'find'
+  #     s3config = YAML::load(File.open("#{Rails.root}/config/s3.yml"))
+  #     s3 = AWS::S3.new(
+  #       :access_key_id     => s3config[Rails.env.to_s]["access_key_id"],
+  #       :secret_access_key => s3config[Rails.env.to_s]["secret_access_key"]
+  #     )
       
-      bucket = s3.buckets[s3config[Rails.env.to_s]["bucket"]]
+  #     bucket = s3.buckets[s3config[Rails.env.to_s]["bucket"]]
       
-      array = Array.new
+  #     array = Array.new
       
-      Find.find(Rich::Engine.root.join('vendor/assets/ckeditor/ckeditor/')) do |f|
-        array << f.to_s
-      end
+  #     Find.find(Rich::Engine.root.join('vendor/assets/ckeditor/ckeditor/')) do |f|
+  #       array << f.to_s
+  #     end
       
-      array.each do |f|
-        if !File.directory? f.to_s
-          file = f.to_s.split("vendor/assets/ckeditor/ckeditor/").last
-          obj = bucket.objects["assets/ckeditor/ckeditor/" + file]
-          content = File.read(f.to_s)
-          obj.write(content)
-          obj.acl=:public_read
-        end
-      end
+  #     array.each do |f|
+  #       if !File.directory? f.to_s
+  #         file = f.to_s.split("vendor/assets/ckeditor/ckeditor/").last
+  #         obj = bucket.objects["assets/ckeditor/ckeditor/" + file]
+  #         content = File.read(f.to_s)
+  #         obj.write(content)
+  #         obj.acl=:public_read
+  #       end
+  #     end
       
-      array = Array.new
+  #     array = Array.new
       
-      Find.find(Rich::Engine.root.join('vendor/assets/ckeditor/ckeditor-contrib/')) do |f|
-        array << f.to_s
-      end
+  #     Find.find(Rich::Engine.root.join('vendor/assets/ckeditor/ckeditor-contrib/')) do |f|
+  #       array << f.to_s
+  #     end
       
-      array.each do |f|
-        if !File.directory? f.to_s
-          file = f.to_s.split("vendor/assets/ckeditor/ckeditor-contrib/").last
-          obj = bucket.objects["assets/ckeditor/ckeditor-contrib/" + file]
-          content = File.read(f.to_s)
-          obj.write(content)
-          obj.acl=:public_read
-        end
-      end
+  #     array.each do |f|
+  #       if !File.directory? f.to_s
+  #         file = f.to_s.split("vendor/assets/ckeditor/ckeditor-contrib/").last
+  #         obj = bucket.objects["assets/ckeditor/ckeditor-contrib/" + file]
+  #         content = File.read(f.to_s)
+  #         obj.write(content)
+  #         obj.acl=:public_read
+  #       end
+  #     end
       
-    elsif Rich.s3assets_sync
-      #Nothing sense its handle by another gem
-    else
-      mkdir_p Rails.root.join('public/assets/ckeditor')
-      cp_r Rich::Engine.root.join('vendor/assets/ckeditor/ckeditor/.'), Rails.root.join('public/assets/ckeditor')
+  #   elsif Rich.s3assets_sync
+  #     #Nothing sense its handle by another gem
+  #   else
+  #     mkdir_p Rails.root.join('public/assets/ckeditor')
+  #     cp_r Rich::Engine.root.join('vendor/assets/ckeditor/ckeditor/.'), Rails.root.join('public/assets/ckeditor')
     
-      mkdir_p Rails.root.join('public/assets/ckeditor-contrib')
-      cp_r Rich::Engine.root.join('vendor/assets/ckeditor/ckeditor-contrib/.'), Rails.root.join('public/assets/ckeditor-contrib')
-    end
-  end
+  #     mkdir_p Rails.root.join('public/assets/ckeditor-contrib')
+  #     cp_r Rich::Engine.root.join('vendor/assets/ckeditor/ckeditor-contrib/.'), Rails.root.join('public/assets/ckeditor-contrib')
+  #   end
+  # end
   
   desc "Clear CKEditor files from /public/assets"
   task :clean_ckeditor => :environment do
