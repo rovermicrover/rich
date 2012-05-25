@@ -87,7 +87,7 @@ namespace :rich do
 end
 
 # Hook to automatically assetize ckeditor when precompiling assets
-namespace :assets do
-  task :precompile => 'rich:assetize_ckeditor'
-  task :clean => 'rich:clean_ckeditor'
-end
+# namespace :assets do
+#   task :precompile => 'rich:assetize_ckeditor'
+#   task :clean => 'rich:clean_ckeditor'
+# end
